@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button'
 import Stack from 'react-bootstrap/Stack'
 import Table from 'react-bootstrap/Table'
 import Modal from 'react-bootstrap/Modal'
+import axios from 'axios';
 
 function Home() {
     const [salary15th, setSalary15th] = useState('')
@@ -37,9 +38,7 @@ function Home() {
     const [apiData, setApiData] = useState([])
     useEffect(() => {
         const interval = setInterval(() => {
-            fetch(`http://${host + port}/barbies/api/expenses/get`)
-            .then(res => { return res.json() })
-            .then(res => {
+            axios.get('/barbies/api/expenses/get').then((res) => {
                 var getExpenses15th = 0;
                 var getExpenses30th = 0;
                 var getLoanRemaining = 0;
@@ -72,18 +71,14 @@ function Home() {
                 setMonthlyLoanExpense(getMonthlyLoanExpense)
                 setEstimatedMonthCompletion((getLoanRemaining / getMonthlyLoanExpense).toFixed(2))
 
-                let sortedApiData = res.data.sort((a,b) => {
+                let sortedApiData = res.data.data.sort((a,b) => {
                     if(a.amount > b.amount){
                         return -1
                     }
                 })
 
                 setApiData(sortedApiData) 
-                //setResult(cc(balance, 0))
-            })
-            .catch(err => {
-                console.log(err)
-            })
+            });
         }, 800);
         return () => clearInterval(interval);
     }, []);
