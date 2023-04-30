@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
-const mongoConnection = 'mongodb+srv://root:sGkMCu1c91C2s5ax@cluster0.dx6mz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+let username = process.env.uname || "root";
+let password = process.env.pword || "sGkMCu1c91C2s5ax";
+//const mongoConnection = `mongodb+srv://${username}:${password}@cluster0.dx6mz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+//const mongoConnection = `mongodb+srv://${username}:${password}@cluster0.dx6mz.mongodb.net/?retryWrites=true&w=majority`;
+const mongoConnection = 'mongodb+srv://'+username+':'+password+'@cluster0.dx6mz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
 const connectDB = async () => {
     try{
